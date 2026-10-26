@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Foxel.net | Robux for less, simple Telegram checkout</title>
+<meta name="description" content="Buy Robux up to 60% cheaper than roblox.com*. See your full price upfront, then finish your order on Telegram. Money-back guarantee and public customer vouches.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://foxel.net/">
+<meta name="theme-color" content="#0F0F13">
+<link rel="icon" type="image/png" href="https://files.catbox.moe/6mhyi9.png">
+<link rel="apple-touch-icon" href="https://files.catbox.moe/6mhyi9.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Foxel.net">
+<meta property="og:url" content="https://foxel.net/">
+<meta property="og:title" content="Foxel.net | Robux for less">
+<meta property="og:description" content="Up to 60% cheaper than roblox.com*. Full price upfront, money-back guarantee, public vouches.">
+<meta property="og:image" content="https://files.catbox.moe/6mhyi9.png">
+<meta property="og:image:alt" content="Foxel.net logo">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Foxel.net | Robux for less">
+<meta name="twitter:description" content="Up to 60% cheaper than roblox.com*. Full price upfront, money-back guarantee, public vouches.">
+<meta name="twitter:image" content="https://files.catbox.moe/6mhyi9.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+{"@type":"Organization","name":"Foxel","url":"https://foxel.net/","logo":"https://files.catbox.moe/6mhyi9.png","sameAs":["https://t.me/foxel_ticket_bot","https://t.me/FoxelVouches"]},
+{"@type":"WebSite","name":"Foxel.net","url":"https://foxel.net/"}
+]}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Unbounded:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0F0F13;
+  --surface:#17171C;
+  --surface-2:#1E1E25;
+  --line:#2B2B34;
+  --text:#ECECF2;
+  --muted:#9B9BA8;
+  --violet:#7C3AED;
+  --violet-hover:#6D28D9;
+  --violet-soft:rgba(124,58,237,.14);
+  --violet-text:#A78BFA;
+  --ok:#34D399;
+  --warn:#FBBF24;
+  --err:#F87171;
+  --tg:#2A9BDB;
+  --radius:14px;
+  --head:'Unbounded','Inter',system-ui,sans-serif;
+  --body:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;color:var(--text);font-family:var(--body);font-size:16px;line-height:1.55;
+  background:var(--bg) radial-gradient(900px 420px at 50% -140px,rgba(91,75,255,.22),transparent 70%) no-repeat;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:var(--violet-text)}
+a:hover{color:#C4B5FD}
+:focus-visible{outline:2px solid var(--violet-text);outline-offset:2px;border-radius:6px}
+.skip{position:absolute;left:-999px;top:8px;background:var(--violet);color:#fff;padding:8px 12px;border-radius:8px;z-index:50}
+.skip:focus{left:8px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+svg.i{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none}
+
+/* header */
+.top{border-bottom:1px solid var(--line);background:rgba(15,15,19,.82);backdrop-filter:blur(10px);position:sticky;top:0;z-index:10}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.logo{font-family:var(--head);font-weight:600;font-size:18px;letter-spacing:-.01em;color:var(--text);text-decoration:none}
+.logo span{color:var(--violet-text)}
+.nav{display:flex;align-items:center;gap:22px}
+.nav a.l{color:var(--muted);text-decoration:none;font-size:14px;font-weight:500}
+.nav a.l:hover{color:var(--text)}
+@media(max-width:720px){.nav a.l{display:none}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:10px;border:1px solid transparent;font:inherit;font-weight:600;font-size:15px;text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
+.btn.primary{background:var(--violet);color:#fff}
+.btn.primary:hover{background:var(--violet-hover);color:#fff}
+.btn.ghost{background:transparent;border-color:var(--line);color:var(--text)}
+.btn.ghost:hover{border-color:#43434f;color:var(--text)}
+.btn.tg{background:var(--tg);color:#fff}
+.btn.tg:hover{background:#2388c4;color:#fff}
+.btn.block{width:100%}
+.btn.lg{min-height:52px;font-size:16px}
+.btn.sm{min-height:38px;padding:6px 14px;font-size:14px}
+
+/* hero */
+.hero{padding-top:44px;padding-bottom:24px}
+h1{font-family:var(--head);font-weight:600;font-size:clamp(26px,5vw,40px);line-height:1.15;letter-spacing:-.02em;margin:0 0 14px}
+.lead{margin:0;max-width:620px;color:#C9C9D4;font-size:clamp(16px,2.2vw,18px)}
+.fine{margin:14px 0 0;font-size:13px;color:var(--muted)}
+.fine.below{margin:8px auto 0}
+
+/* layout */
+.layout{display:grid;gap:20px;grid-template-columns:1fr;align-items:start;padding-bottom:12px}
+@media(min-width:900px){.layout{grid-template-columns:minmax(0,1fr) 380px;gap:24px}.aside{position:sticky;top:80px}}
+.stack{display:grid;gap:20px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.card h2{display:flex;align-items:center;gap:12px;margin:0 0 18px;font-family:var(--head);font-weight:500;font-size:15px;letter-spacing:-.005em}
+.num{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--violet-soft);color:var(--violet-text);font-family:var(--body);font-weight:700;font-size:14px;flex:none}
+label,.lab{display:block;margin:18px 0 7px;font-size:14px;font-weight:600;color:#D6D6E0}
+label:first-of-type{margin-top:0}
+.chips+label{margin-top:18px}
+.opt{font-weight:400;color:var(--muted)}
+input[type=text]{width:100%;min-height:48px;padding:11px 14px;font:inherit;font-size:16px;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:10px}
+input[type=text]::placeholder{color:#6F6F7C}
+input[type=text]:hover{border-color:#43434f}
+input[type=text]:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(124,58,237,.25)}
+input[aria-invalid=true]{border-color:var(--err)}
+.hint{margin:7px 0 0;font-size:13px;color:var(--muted)}
+.err{margin:8px 0 0;font-size:14px;color:var(--err)}
+
+/* amount */
+.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.chip{position:relative;font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 6px;cursor:pointer;text-align:center;min-height:68px}
+.chip:hover{border-color:#43434f}
+.chip b{display:block;font-size:18px;font-weight:700;line-height:1.1}
+.chip span{display:block;margin-top:5px;font-size:13px;color:var(--muted)}
+.chip[aria-pressed=true]{border-color:var(--violet);background:var(--violet-soft)}
+.chip[aria-pressed=true] span{color:#D8CCFD}
+.stepper{display:grid;grid-template-columns:48px 1fr 48px;gap:8px}
+.stepper button{min-height:48px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);font:inherit;font-size:22px;line-height:1;cursor:pointer}
+.stepper button:hover:not(:disabled){border-color:#43434f}
+.stepper button:disabled{opacity:.35;cursor:not-allowed}
+.stepper input{text-align:center;font-weight:600;font-size:18px;font-variant-numeric:tabular-nums}
+.note{margin:10px 0 0;font-size:13px;color:var(--muted)}
+.note.warn{color:var(--warn)}
+
+/* gamepass callout */
+.callout{display:flex;gap:12px;background:var(--violet-soft);border:1px solid rgba(124,58,237,.35);border-radius:12px;padding:14px 16px;margin:0 0 4px;font-size:15px}
+.callout svg.i{color:var(--violet-text);margin-top:2px}
+.callout b{color:#fff;font-variant-numeric:tabular-nums}
+.callout small{display:block;margin-top:4px;color:#C4B8EC;font-size:13px}
+
+/* payment */
+.pay{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.pay button{font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;text-align:left;min-height:62px}
+.pay button:hover{border-color:#43434f}
+.pay b{display:block;font-size:15px;font-weight:600}
+.pay span{display:block;margin-top:2px;font-size:13px;color:var(--muted)}
+.pay button[aria-checked=true]{border-color:var(--violet);background:var(--violet-soft)}
+.pay button[aria-checked=true] span{color:#D8CCFD}
+
+/* summary */
+.aside .card{padding:22px}
+.aside h2{margin-bottom:14px}
+dl.rows{margin:0}
+.row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:9px 0;font-size:15px;border-bottom:1px solid var(--line)}
+.row dt{color:var(--muted)}
+.row dd{margin:0;font-weight:600;font-variant-numeric:tabular-nums;text-align:right}
+.row.total{border-bottom:0;padding:16px 0 6px;align-items:flex-end}
+.row.total dt{color:var(--text);font-weight:600}
+.row.total dd{font-size:34px;line-height:1;font-weight:700;letter-spacing:-.02em}
+.cmp{margin:10px 0 0;padding:12px 14px;background:var(--surface-2);border-radius:10px;font-size:14px}
+.cmp .r{display:flex;justify-content:space-between;gap:12px;color:var(--muted)}
+.cmp .r+.r{margin-top:4px}
+.cmp .r b{color:var(--text);font-variant-numeric:tabular-nums}
+.cmp .save b{color:var(--ok)}
+.arrive{margin:12px 0 0;font-size:13px;color:var(--muted)}
+.arrive b{color:var(--text);font-variant-numeric:tabular-nums}
+.aside .btn{margin-top:18px}
+.micro{margin:12px 0 0;font-size:13px;color:var(--muted);text-align:center}
+.trust{margin:20px 0 0;padding:18px 0 0;border-top:1px solid var(--line);list-style:none;display:grid;gap:16px}
+@media(min-width:700px){.trust{grid-template-columns:repeat(3,1fr);gap:20px}}
+.trust li{display:flex;gap:12px;align-items:flex-start}
+.trust svg.i{color:var(--violet-text);margin-top:2px}
+.trust b{display:block;font-size:14px;font-weight:600}
+.trust span{display:block;font-size:13px;color:var(--muted)}
+.foot-claim{margin:16px 0 0;font-size:12px;color:var(--muted)}
+
+/* sections */
+.sec{padding-top:56px}
+.sec h2.t{font-family:var(--head);font-weight:500;font-size:clamp(19px,3vw,24px);letter-spacing:-.01em;margin:0 0 8px}
+.sec .sub{margin:0 0 24px;color:var(--muted);max-width:620px}
+.grid4{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}
+.step{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.step .num{margin-bottom:12px}
+.step b{display:block;font-size:16px;margin-bottom:4px}
+.step p{margin:0;font-size:14px;color:var(--muted)}
+.vouch{display:flex;flex-wrap:wrap;gap:18px;align-items:center;justify-content:space-between;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.vouch .tx{max-width:560px}
+.vouch b{display:flex;align-items:center;gap:10px;font-size:17px;margin-bottom:4px}
+.vouch b svg.i{color:var(--tg)}
+.vouch p{margin:0;color:var(--muted);font-size:15px}
+.shots{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));margin-top:16px}
+.shots img{width:100%;height:auto;border-radius:12px;border:1px solid var(--line);display:block;background:var(--surface)}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin-top:10px}
+summary{cursor:pointer;list-style:none;padding:16px 18px;font-weight:600;display:flex;justify-content:space-between;gap:16px;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:'+';color:var(--violet-text);font-size:22px;line-height:1;flex:none}
+details[open] summary::after{content:'\2013'}
+details p{margin:0;padding:0 18px 18px;color:#C0C0CC;font-size:15px}
+footer{margin-top:64px;border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);font-size:13px}
+footer .wrap{display:flex;flex-wrap:wrap;gap:12px 24px;justify-content:space-between}
+footer a{color:var(--muted)}
+footer a:hover{color:var(--text)}
+.links{display:flex;flex-wrap:wrap;gap:6px 20px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:30;background:rgba(5,5,10,.78);backdrop-filter:blur(4px);display:grid;place-items:center;padding:16px;overflow:auto}
+.modal[hidden]{display:none}
+.mbox{position:relative;width:100%;max-width:480px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px 24px 24px;box-shadow:0 24px 80px rgba(0,0,0,.6)}
+.mx{position:absolute;top:10px;right:10px;width:44px;height:44px;border:0;background:transparent;color:var(--muted);font-size:28px;line-height:1;cursor:pointer;border-radius:10px}
+.mx:hover{color:var(--text)}
+.mbox h3{font-family:var(--head);font-weight:500;font-size:19px;margin:0 36px 6px 0;letter-spacing:-.01em}
+.mlead{margin:0 0 18px;color:var(--muted);font-size:15px}
+.msteps{margin:0 0 16px;padding:0;list-style:none;counter-reset:m;display:grid;gap:12px}
+.msteps li{counter-increment:m;position:relative;padding-left:40px;font-size:15px;font-weight:500}
+.msteps li::before{content:counter(m);position:absolute;left:0;top:0;width:28px;height:28px;border-radius:8px;background:var(--violet-soft);color:var(--violet-text);display:grid;place-items:center;font-weight:700;font-size:14px}
+.msteps small{display:block;color:var(--muted);font-weight:400;font-size:13px;margin-top:1px}
+#mTxt{margin:0;padding:12px 14px;background:var(--bg);border:1px dashed var(--line);border-radius:10px;white-space:pre-wrap;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px;line-height:1.5;color:#C9C9D4;user-select:all}
+.mbox .btn{margin-top:12px}
+noscript .card{margin:20px auto;max-width:640px}
+@media(max-width:480px){.card{padding:18px}.chips{gap:8px}.chip b{font-size:16px}.hero{padding-top:30px}.pay{grid-template-columns:1fr 1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#calc">Skip to calculator</a>
+
+<header class="top">
+<div class="wrap bar">
+<a class="logo" href="/" aria-label="Foxel.net home">foxel<span>.net</span></a>
+<nav class="nav" aria-label="Main">
+<a class="l" href="#how">How it works</a>
+<a class="l" href="#vouches">Vouches</a>
+<a class="l" href="#faq">FAQ</a>
+<a class="btn tg sm" href="https://t.me/foxel_ticket_bot" target="_blank" rel="noopener noreferrer">Open Telegram</a>
+</nav>
+</div>
+</header>
+
+<main>
+<section class="wrap hero">
+<h1>Buy Robux for less.</h1>
+<p class="lead">Up to 60% cheaper than roblox.com*.</p>
+</section>
+
+<div class="wrap layout">
+<div class="stack">
+
+<section class="card" id="calc" aria-labelledby="h-amt">
+<h2 id="h-amt"><span class="num">1</span>Choose your amount</h2>
+<div class="chips" id="chips" role="group" aria-label="Popular amounts"></div>
+<label for="amt">Custom amount <span class="opt">(minimum 5,000)</span></label>
+<div class="stepper">
+<button type="button" id="dec" aria-label="Decrease by 1,000">−</button>
+<input id="amt" type="text" inputmode="numeric" autocomplete="off" value="10,000" aria-describedby="amtNote">
+<button type="button" id="inc" aria-label="Increase by 1,000">+</button>
+</div>
+<p class="note" id="amtNote">Custom amounts start at 5,000 Robux.</p>
+<ul class="trust">
+<li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
+<div><b>Money-back guarantee</b><span>If we can’t deliver your order, you get your money back.</span></div></li>
+<li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+<div><b>Easy checkout options</b><span>Apple Pay, Google Pay, Solana, Litecoin</span></div></li>
+<li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="14" width="4" height="6" rx="2"/><rect x="17" y="14" width="4" height="6" rx="2"/></svg>
+<div><b>Live support on Telegram</b><span>Daily 12:00–22:00 (Amsterdam time)</span></div></li>
+</ul>
+</section>
+
+<section class="card" id="order" aria-labelledby="h-det">
+<h2 id="h-det"><span class="num">2</span>Your details</h2>
+<div class="callout">
+<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
+<div>Create a Roblox gamepass priced at exactly <b><span id="gp">10,000</span> Robux</b>.
+<small>Roblox’s gamepass fee applies. Details in the <a href="disclaimer.html">disclaimer</a>.</small></div>
+</div>
+
+<label for="gpid">Gamepass ID or Roblox username</label>
+<input id="gpid" type="text" placeholder="e.g. 123456789" autocomplete="off" aria-describedby="gpHint gpErr">
+<p class="hint" id="gpHint">Can’t find the ID? Enter your Roblox username instead.</p>
+<p class="err" id="gpErr" role="alert" hidden>Enter your gamepass ID or Roblox username first.</p>
+
+<label for="ref">Creator code <span class="opt">(optional)</span></label>
+<input id="ref" type="text" placeholder="e.g. FOXEL_NAME" autocomplete="off" autocapitalize="characters">
+
+<span class="lab" id="payLab">Payment method</span>
+<div class="pay" id="pay" role="radiogroup" aria-labelledby="payLab"></div>
+<p class="note" id="payNote"></p>
+</section>
+
+</div>
+
+<aside class="aside" aria-label="Order summary">
+<section class="card">
+<h2>Order summary</h2>
+<dl class="rows" aria-live="polite">
+<div class="row"><dt>Robux (gamepass price)</dt><dd id="sRb">10,000</dd></div>
+<div class="row"><dt>Foxel price</dt><dd id="sPrice">€50.00</dd></div>
+<div class="row"><dt id="feeLab">Card fee (+5%)</dt><dd id="sFee">€2.50</dd></div>
+<div class="row total"><dt>Total</dt><dd id="sTotal">€52.50</dd></div>
+</dl>
+<div class="cmp" aria-live="polite">
+<div class="r"><span>Roblox.com, same amount*</span><b id="sRbx">≈ €109.10</b></div>
+<div class="r save"><span>You save about (before Roblox’s fee)</span><b id="sSave">€56.60 (52%)</b></div>
+</div>
+<button class="btn primary lg block" id="go" type="button"><span id="goTxt">Continue on Telegram</span>
+<svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+<p class="micro" id="micro">You don’t pay on this website. We confirm every order with you on Telegram first.</p>
+<p class="micro">Telegram bot: t.me/foxel_ticket_bot</p>
+
+</section>
+</aside>
+</div>
+<p class="wrap fine below">*Compared with roblox.com prices for the same Robux amount. Roblox’s gamepass fee applies, see the <a href="disclaimer.html">disclaimer</a>.</p>
+
+<section class="wrap sec" id="how">
+<h2 class="t">How it works</h2>
+<p class="sub">Four steps. You always see the full price first, and you confirm everything with us on Telegram before paying.</p>
+<div class="grid4">
+<div class="step"><span class="num">1</span><b>Pick your amount</b><p>Use the calculator. Custom amounts start at 5,000 Robux.</p></div>
+<div class="step"><span class="num">2</span><b>Make a gamepass</b><p>Create a gamepass priced at the amount shown in the calculator.</p></div>
+<div class="step"><span class="num">3</span><b>Send your order</b><p>We prepare your order message. Paste it into our Telegram bot and we confirm payment details with you.</p></div>
+<div class="step"><span class="num">4</span><b>Get your Robux</b><p>We check your gamepass and payment, then deliver your Robux.</p></div>
+</div>
+</section>
+
+<section class="wrap sec" id="vouches">
+<h2 class="t">Customer vouches</h2>
+<p class="sub">Don’t take our word for it. Vouches are posted in a public Telegram channel you can read before you order.</p>
+<div class="vouch">
+<div class="tx"><b><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M21 4L3 11l6 2 2 6 3-4 5 4 2-15z"/></svg>t.me/FoxelVouches</b>
+<p>Real customer messages and order screenshots, in the open.</p></div>
+<a class="btn tg" href="https://t.me/FoxelVouches" target="_blank" rel="noopener noreferrer">View vouches on Telegram</a>
+</div>
+<div class="shots" id="shots" hidden></div>
+</section>
+
+<section class="wrap sec" id="faq">
+<h2 class="t">Questions</h2>
+<p class="sub">Short answers to what people ask most.</p>
+<details><summary>How does ordering work?</summary><p>Pick an amount, create a gamepass at the price shown, and press Continue on Telegram. We prepare your order message, you paste it into our bot, and we confirm payment details with you there. Once payment is confirmed and your gamepass checks out, we deliver your Robux.</p></details>
+<details><summary>Does the price include Roblox’s gamepass fee?</summary><p>No. Roblox charges its own fee on gamepass sales, and it is not included in our price. The <a href="disclaimer.html">disclaimer</a> explains exactly how it works.</p></details>
+<details><summary>How can I pay, and are there fees?</summary><p>Solana (SOL) and Litecoin (LTC) are paid on our secure checkout page, with no extra fee. Apple Pay and Google Pay are arranged with us on Telegram and add a 5% card fee, which is shown in the total before you continue.</p></details>
+<details><summary>What if something goes wrong?</summary><p>If we can’t deliver your order, you get your money back. Message us on Telegram and we’ll sort it out. Support is available between 12:00 and 22:00, Amsterdam time.</p></details>
+<details><summary>I can’t find my gamepass ID</summary><p>Enter your Roblox username in the ID field instead, and make sure your gamepass is priced exactly as shown in step 2. We can help you on Telegram if you get stuck.</p></details>
+<details><summary>What is the minimum order?</summary><p>Custom amounts start at 5,000 Robux. A 1,000 Robux option is available as a preset, but stock for it is limited, so we confirm it on Telegram.</p></details>
+<details><summary>Is Foxel affiliated with Roblox?</summary><p>No. Foxel is an independent service and is not affiliated with, endorsed by, or sponsored by Roblox Corporation.</p></details>
+</section>
+</main>
+
+<footer>
+<div class="wrap">
+<div>foxel.net · Not affiliated with Roblox Corporation. Roblox and Robux are trademarks of Roblox Corporation.</div>
+<div class="links"><a href="disclaimer.html">Disclaimer</a><a href="https://t.me/FoxelVouches" target="_blank" rel="noopener noreferrer">Vouches</a><a href="https://t.me/foxel_ticket_bot" target="_blank" rel="noopener noreferrer">Telegram</a></div>
+</div>
+</footer>
+
+<noscript><div class="card">This page needs JavaScript for the calculator. You can also order directly on <a href="https://t.me/foxel_ticket_bot">Telegram</a>.</div></noscript>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle" hidden>
+<div class="mbox">
+<button class="mx" id="mClose" type="button" aria-label="Close">×</button>
+<h3 id="mTitle">Finish your order on Telegram</h3>
+<p class="mlead" id="mLead"></p>
+<ol class="msteps">
+<li>Open our Telegram bot<small>Tap the button below.</small></li>
+<li>Paste your order message<small>Tap and hold the message box, then choose Paste.</small></li>
+<li>Send it<small>We check your gamepass and confirm payment details with you there.</small></li>
+</ol>
+<pre id="mTxt"></pre>
+<a class="btn tg lg block" id="mTg" target="_blank" rel="noopener noreferrer">Open Telegram</a>
+<button class="btn ghost block" id="mCopy" type="button">Copy order again</button>
+</div>
+</div>
+
+<script>
+const CFG = {
+  eur1k: 5,
+  tier: { from: 25000, eur1k: 4 },
+  min: 5000,
+  max: 10000000,
+  small: { robux: 1000, eur: 8 },
+  rbx1k: 10.91,
+  cardFee: 0.05,
+  bot: 'foxel_ticket_bot',
+  // Support window in Amsterdam time (24h clock)
+  support: { from: 12, to: 22, tz: 'Europe/Amsterdam' }
+};
+// Add vouch screenshots here, e.g. { src: 'vouches/1.png', alt: 'Customer vouch' }
+const VOUCHES = [];
+
+const $ = id => document.getElementById(id);
+const fmt = n => Math.round(n).toLocaleString('en-US');
+const eur = n => '€' + n.toFixed(2);
+
+const PAY = [
+  { name: 'Apple Pay',      sub: '+5% card fee', card: true },
+  { name: 'Google Pay',     sub: '+5% card fee', card: true },
+  { name: 'Solana (SOL)',   sub: 'No extra fee', card: false, asset: 'SOL' },
+  { name: 'Litecoin (LTC)', sub: 'No extra fee', card: false, asset: 'LTC' }
+];
+const isApple = /iPhone|iPad|Macintosh/.test(navigator.userAgent);
+let pay = isApple ? 'Apple Pay' : 'Google Pay';
+let amount = 10000;
+
+// Smooth pricing: EUR 5/1K up to 10K, a straight line from
+// 10K (EUR 50) to 25K (EUR 100), then EUR 4/1K from 25K up.
+const priceFor = r => {
+  if (r === CFG.small.robux) return CFG.small.eur;
+  const lo = 10000, hi = CFG.tier.from;
+  const pLo = lo / 1000 * CFG.eur1k;
+  const pHi = hi / 1000 * CFG.tier.eur1k;
+  if (r <= lo) return r / 1000 * CFG.eur1k;
+  if (r < hi) return pLo + (r - lo) / (hi - lo) * (pHi - pLo);
+  return r / 1000 * CFG.tier.eur1k;
+};
+const payInfo = () => PAY.find(p => p.name === pay);
+const clampCustom = v => Math.min(CFG.max, Math.max(CFG.min, Math.round(v) || CFG.min));
+
+function update() {
+  const r = amount;
+  const price = priceFor(r);
+  const card = payInfo().card;
+  const fee = card ? price * CFG.cardFee : 0;
+  const total = price + fee;
+  const rbx = r / 1000 * CFG.rbx1k;
+  const saved = Math.max(0, rbx - total);
+  const pct = rbx ? Math.round(saved / rbx * 100) : 0;
+
+  $('gp').textContent = fmt(r);
+  $('sRb').textContent = fmt(r);
+  $('sPrice').textContent = eur(price);
+  $('feeLab').textContent = card ? 'Card fee (+5%)' : 'Payment fee';
+  $('sFee').textContent = card ? eur(fee) : 'None';
+  $('sTotal').textContent = eur(total);
+  $('sRbx').textContent = '≈ ' + eur(rbx);
+  $('sSave').textContent = eur(saved) + ' (' + pct + '%)';
+
+  const small = r === CFG.small.robux;
+  document.querySelectorAll('#chips .chip').forEach(b => {
+    b.setAttribute('aria-pressed', String(+b.dataset.v === r));
+  });
+  $('dec').disabled = r <= CFG.min;
+  $('inc').disabled = r >= CFG.max;
+  const note = $('amtNote');
+  note.classList.toggle('warn', small);
+  note.textContent = small
+    ? '1,000 Robux is a preset. Stock is limited, so we confirm it with you on Telegram.'
+    : 'Custom amounts start at 5,000 Robux.';
+  const crypto = !!payInfo().asset;
+  $('payNote').textContent = card
+    ? 'Card payments go through a third-party payment provider, and a 5% fee applies. We walk you through the exact steps on Telegram.'
+    : 'Crypto payments go through our secure checkout page. No extra fee. Crypto payments can’t be reversed, so check the amount before you send.';
+  $('goTxt').textContent = crypto ? 'Pay with ' + payInfo().name.split(' ')[0] : 'Continue on Telegram';
+  $('micro').textContent = crypto
+    ? 'You pay on the secure checkout page. Your order is confirmed once the payment arrives.'
+    : 'You don’t pay on this website. We confirm every order with you on Telegram first.';
+  document.querySelectorAll('#pay button').forEach(b => {
+    b.setAttribute('aria-checked', String(b.dataset.n === pay));
+  });
+}
+
+function setAmount(v, keepInput) {
+  amount = v;
+  if (!keepInput) $('amt').value = fmt(v);
+  update();
+}
+
+// Presets
+[1000, 5000, 10000, 25000].forEach(v => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'chip';
+  b.dataset.v = v;
+  b.innerHTML = '<b>' + (v / 1000) + 'K</b><span>' + eur(priceFor(v)).replace('.00', '') + '</span>';
+  b.setAttribute('aria-label', fmt(v) + ' Robux for ' + eur(priceFor(v)));
+  b.onclick = () => setAmount(v);
+  $('chips').appendChild(b);
+});
+
+// Payment methods
+PAY.forEach(p => {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.setAttribute('role', 'radio');
+  b.dataset.n = p.name;
+  b.innerHTML = '<b>' + p.name + '</b><span>' + p.sub + '</span>';
+  b.onclick = () => { pay = p.name; update(); };
+  $('pay').appendChild(b);
+});
+
+// Amount controls
+$('amt').addEventListener('input', () => {
+  const n = parseInt($('amt').value.replace(/\D/g, ''), 10);
+  amount = clampCustom(n);
+  update();
+});
+$('amt').addEventListener('blur', () => setAmount(amount));
+$('inc').addEventListener('click', () => setAmount(clampCustom(amount < CFG.min ? CFG.min : amount + 1000)));
+$('dec').addEventListener('click', () => setAmount(clampCustom(amount - 1000)));
+
+
+// Order handoff
+function copyText(t) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(t);
+    }
+  } catch (e) {}
+  return new Promise((res, rej) => {
+    const ta = document.createElement('textarea');
+    ta.value = t;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    let ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) {}
+    ta.remove();
+    ok ? res() : rej();
+  });
+}
+async function payCrypto(gp, ref) {
+  const btn = $('go');
+  const label = $('goTxt').textContent;
+  btn.disabled = true;
+  $('goTxt').textContent = 'Creating your payment…';
+  try {
+    const res = await fetch('/api/create-payment', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ robux: amount, asset: payInfo().asset, gp, ref })
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || !data.checkout_url) throw new Error(data.error || 'Payment failed');
+    window.location.href = data.checkout_url;
+  } catch (e) {
+    $('gpErr').textContent = 'Couldn’t start the payment: ' + e.message + '. Try again, or order on Telegram.';
+    $('gpErr').hidden = false;
+    btn.disabled = false;
+    $('goTxt').textContent = label;
+  }
+}
+
+function go() {
+  const gpEl = $('gpid');
+  const gp = gpEl.value.trim();
+  if (!gp) {
+    $('gpErr').textContent = 'Enter your gamepass ID or Roblox username first.';
+    $('gpErr').hidden = false;
+    gpEl.setAttribute('aria-invalid', 'true');
+    $('order').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    gpEl.focus({ preventScroll: true });
+    return;
+  }
+  if (payInfo().asset) {
+    payCrypto(gp, $('ref').value.trim());
+    return;
+  }
+  const r = amount;
+  const price = priceFor(r);
+  const card = payInfo().card;
+  const ref = $('ref').value.trim();
+  const id = 'FX' + Date.now().toString(36).toUpperCase();
+  const text = [
+    'FOXEL ORDER ' + id,
+    'Robux: ' + fmt(r),
+    'Price: EUR ' + price.toFixed(2),
+    (card
+      ? 'Card fee (+5%): EUR ' + (price * CFG.cardFee).toFixed(2) + '\n' +
+        'Total to pay: EUR ' + (price * (1 + CFG.cardFee)).toFixed(2)
+      : 'Total to pay: EUR ' + price.toFixed(2)),
+    'Gamepass ID or username: ' + gp,
+    'Gamepass price: ' + fmt(r) + ' Robux',
+    'Creator code: ' + (ref || 'none'),
+    'Payment method: ' + pay
+  ].join('\n');
+  $('mTxt').textContent = text;
+  $('mTg').href = 'https://t.me/' + CFG.bot;
+  $('mLead').textContent = 'Copying your order…';
+  openModal();
+  copyText(text).then(() => {
+    $('mLead').textContent = 'Your order is copied to your clipboard.';
+  }).catch(() => {
+    $('mLead').textContent = 'Couldn’t copy automatically. Tap “Copy order again”, or select the text below.';
+  });
+}
+let lastFocus = null;
+function openModal() {
+  lastFocus = document.activeElement;
+  $('modal').hidden = false;
+  document.body.style.overflow = 'hidden';
+  $('mTg').focus({ preventScroll: true });
+}
+function closeModal() {
+  $('modal').hidden = true;
+  document.body.style.overflow = '';
+  if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true });
+}
+$('mClose').addEventListener('click', closeModal);
+$('modal').addEventListener('click', e => { if (e.target === $('modal')) closeModal(); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && !$('modal').hidden) closeModal();
+});
+$('mCopy').addEventListener('click', () => {
+  copyText($('mTxt').textContent).then(() => {
+    $('mLead').textContent = 'Copied again. Now paste it in the chat.';
+  }).catch(() => {
+    $('mLead').textContent = 'Copy blocked. Select the text below and copy it by hand.';
+  });
+});
+$('gpid').addEventListener('input', () => {
+  $('gpErr').hidden = true;
+  $('gpid').removeAttribute('aria-invalid');
+});
+$('go').addEventListener('click', go);
+
+// Vouch screenshots
+if (VOUCHES.length) {
+  const box = $('shots');
+  VOUCHES.forEach(v => {
+    const img = document.createElement('img');
+    img.src = v.src;
+    img.alt = v.alt || 'Customer vouch';
+    img.loading = 'lazy';
+    box.appendChild(img);
+  });
+  box.hidden = false;
+}
+
+update();
+</script>
+</body>
+</html>
