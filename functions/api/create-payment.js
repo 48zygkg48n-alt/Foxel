@@ -44,13 +44,14 @@ async function notifyTelegram(env, text) {
 export async function onRequestGet({ env }) {
   return json({
     deployed: true,
-    cryptopayin_secret_set: Boolean(env.CRYPTOPAYIN_SECRET),
+    paymento_api_key_set: Boolean(env.PAYMENTO_API_KEY),
+    paymento_secret_set: Boolean(env.PAYMENTO_SECRET),
     telegram_alerts_set: Boolean(env.TG_BOT_TOKEN && env.TG_CHAT_ID)
   });
 }
 
 export async function onRequestPost({ request, env }) {
-  if (!env.CRYPTOPAYIN_SECRET) {
+  if (!env.PAYMENTO_API_KEY) {
     return json({ error: 'Crypto payments are not configured' }, 500);
   }
 
@@ -74,32 +75,44 @@ export async function onRequestPost({ request, env }) {
     Math.random().toString(36).slice(2, 6).toUpperCase();
   const amount = priceFor(robux).toFixed(2);
 
+  // Paymento: POST /v1/payment/request returns { success, message, body: <token> }.
+  // A refused request still comes back as HTTP 200 with success:false.
   let upstream;
   try {
-    upstream = await fetch('https://cryptopayin.com/v1/payments', {
+    upstream = await fetch('https://api.paymento.io/v1/payment/request', {
       method: 'POST',
       headers: {
-        'Authorization': 'Bearer ' + env.CRYPTOPAYIN_SECRET,
+        'Api-Key': env.PAYMENTO_API_KEY,
         'Content-Type': 'application/json',
-        'Idempotency-Key': orderId
+        'Accept': 'application/json'
       },
       body: JSON.stringify({
-        amount,
-        currency: 'EUR',
-        asset,
-        order_ref: orderId,
-        redirect_url: 'https://foxel.net/?order=' + orderId,
-        expires_in_minutes: 30
+        fiatAmount: amount,
+        fiatCurrency: 'EUR',
+        orderId,
+        returnUrl: 'https://foxel.net/?order=' + orderId,
+        tokenExpiryDate: new Date(Date.now() + 30 * 60 * 1000).toISOString(),
+        // Comes back in the callback so the alert can show what was ordered.
+        additionalData: [
+          { key: 'robux', value: String(robux) },
+          { key: 'gamepass', value: gp },
+          { key: 'creator_code', value: ref || 'none' },
+          { key: 'preferred_coin', value: asset }
+        ]
       })
     });
   } catch (e) {
+    console.log('paymento request failed to connect:', String(e));
     return json({ error: 'Payment provider is unreachable' }, 502);
   }
 
   const data = await upstream.json().catch(() => ({}));
-  if (!upstream.ok || !data.checkout_url) {
+  if (!upstream.ok || !data.success || !data.body || typeof data.body !== 'string') {
+    // Visible in Cloudflare Pages > Functions > real-time logs. Never logs the key.
+    console.log('paymento refused:', upstream.status, data.code || '', data.message || '');
     return json({ error: 'Could not create the payment' }, 502);
   }
+  const checkoutUrl = 'https://app.paymento.io/gateway?token=' + encodeURIComponent(data.body);
 
   try {
     await notifyTelegram(env,
@@ -107,10 +120,10 @@ export async function onRequestPost({ request, env }) {
       'Order: ' + orderId + '\n' +
       'Robux: ' + robux + '\n' +
       'Price: EUR ' + amount + '\n' +
-      'Asset: ' + asset + '\n' +
+      'Preferred coin: ' + asset + ' (customer picks the coin on the checkout page)\n' +
       'Gamepass: ' + gp + '\n' +
       'Creator code: ' + (ref || 'none'));
   } catch (e) { /* alerts are optional */ }
 
-  return json({ checkout_url: data.checkout_url, order_id: orderId });
+  return json({ checkout_url: checkoutUrl, order_id: orderId });
 }
