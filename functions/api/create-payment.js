@@ -68,7 +68,7 @@ export async function onRequestPost({ request, env }) {
   const validAmount = robux === PRICE.small.robux ||
     (Number.isInteger(robux) && robux >= PRICE.min && robux <= PRICE.max);
   if (!validAmount) return json({ error: 'Invalid amount' }, 400);
-  if (!['SOL', 'LTC'].includes(asset)) return json({ error: 'Invalid payment method' }, 400);
+  if (!['CRYPTO', 'SOL', 'LTC'].includes(asset)) return json({ error: 'Invalid payment method' }, 400);
   if (!gp) return json({ error: 'Missing gamepass ID or username' }, 400);
 
   const orderId = 'FX' + Date.now().toString(36).toUpperCase() +
@@ -96,8 +96,7 @@ export async function onRequestPost({ request, env }) {
         additionalData: [
           { key: 'robux', value: String(robux) },
           { key: 'gamepass', value: gp },
-          { key: 'creator_code', value: ref || 'none' },
-          { key: 'preferred_coin', value: asset }
+          { key: 'creator_code', value: ref || 'none' }
         ]
       })
     });
@@ -120,7 +119,7 @@ export async function onRequestPost({ request, env }) {
       'Order: ' + orderId + '\n' +
       'Robux: ' + robux + '\n' +
       'Price: EUR ' + amount + '\n' +
-      'Preferred coin: ' + asset + ' (customer picks the coin on the checkout page)\n' +
+      'Coin: customer picks it on the checkout page\n' +
       'Gamepass: ' + gp + '\n' +
       'Creator code: ' + (ref || 'none'));
   } catch (e) { /* alerts are optional */ }

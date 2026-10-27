@@ -140,6 +140,7 @@ input[aria-invalid=true]{border-color:var(--err)}
 .pay{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 .pay button{font:inherit;color:var(--text);background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:12px 14px;cursor:pointer;text-align:left;min-height:62px}
 .pay button:hover{border-color:#43434f}
+.pay button.wide{grid-column:1/-1}
 .pay b{display:block;font-size:15px;font-weight:600}
 .pay span{display:block;margin-top:2px;font-size:13px;color:var(--muted)}
 .pay button[aria-checked=true]{border-color:var(--violet);background:var(--violet-soft)}
@@ -257,7 +258,7 @@ noscript .card{margin:20px auto;max-width:640px}
 <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>
 <div><b>Money-back guarantee</b><span>If we can’t deliver your order, you get your money back.</span></div></li>
 <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
-<div><b>Easy checkout options</b><span>Apple Pay, Google Pay, Solana, Litecoin</span></div></li>
+<div><b>Easy checkout options</b><span>Apple Pay, Google Pay, Bitcoin, Solana, USDT and more</span></div></li>
 <li><svg class="i" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 14v-2a8 8 0 0116 0v2"/><rect x="3" y="14" width="4" height="6" rx="2"/><rect x="17" y="14" width="4" height="6" rx="2"/></svg>
 <div><b>Live support on Telegram</b><span>Daily 12:00–22:00 (Amsterdam time)</span></div></li>
 </ul>
@@ -336,7 +337,7 @@ noscript .card{margin:20px auto;max-width:640px}
 <p class="sub">Short answers to what people ask most.</p>
 <details><summary>How does ordering work?</summary><p>Pick an amount, create a gamepass at the price shown, and press Continue on Telegram. We prepare your order message, you paste it into our bot, and we confirm payment details with you there. Once payment is confirmed and your gamepass checks out, we deliver your Robux.</p></details>
 <details><summary>Does the price include Roblox’s gamepass fee?</summary><p>No. Roblox charges its own fee on gamepass sales, and it is not included in our price. The <a href="disclaimer.html">disclaimer</a> explains exactly how it works.</p></details>
-<details><summary>How can I pay, and are there fees?</summary><p>Solana (SOL) and Litecoin (LTC) are paid on our secure checkout page, with no extra fee. Apple Pay and Google Pay are arranged with us on Telegram and add a 5% card fee, which is shown in the total before you continue.</p></details>
+<details><summary>How can I pay, and are there fees?</summary><p>Crypto is paid on our secure checkout page, with no extra fee from us. You pick the coin there: Bitcoin, Ethereum, Tron, Litecoin, Dogecoin, Solana, USDT, USDC or EURC. Apple Pay and Google Pay are arranged with us on Telegram and add a 5% card fee, which is shown in the total before you continue.</p></details>
 <details><summary>What if something goes wrong?</summary><p>If we can’t deliver your order, you get your money back. Message us on Telegram and we’ll sort it out. Support is available between 12:00 and 22:00, Amsterdam time.</p></details>
 <details><summary>I can’t find my gamepass ID</summary><p>Enter your Roblox username in the ID field instead, and make sure your gamepass is priced exactly as shown in step 2. We can help you on Telegram if you get stuck.</p></details>
 <details><summary>What is the minimum order?</summary><p>Custom amounts start at 5,000 Robux. A 1,000 Robux option is available as a preset, but stock for it is limited, so we confirm it on Telegram.</p></details>
@@ -392,8 +393,7 @@ const eur = n => '€' + n.toFixed(2);
 const PAY = [
   { name: 'Apple Pay',      sub: '+5% card fee', card: true },
   { name: 'Google Pay',     sub: '+5% card fee', card: true },
-  { name: 'Solana (SOL)',   sub: 'No extra fee', card: false, asset: 'SOL' },
-  { name: 'Litecoin (LTC)', sub: 'No extra fee', card: false, asset: 'LTC' }
+  { name: 'Crypto', sub: 'Bitcoin, Ethereum, Solana, Litecoin, USDT, USDC and more · No extra fee', card: false, asset: 'CRYPTO', wide: true }
 ];
 const isApple = /iPhone|iPad|Macintosh/.test(navigator.userAgent);
 let pay = isApple ? 'Apple Pay' : 'Google Pay';
@@ -446,7 +446,7 @@ function update() {
   const crypto = !!payInfo().asset;
   $('payNote').textContent = card
     ? 'Card payments go through a third-party payment provider, and a 5% fee applies. We walk you through the exact steps on Telegram.'
-    : 'Crypto payments go through our secure checkout page. No extra fee. Crypto payments can’t be reversed, so check the amount before you send.';
+    : 'You choose your coin on our secure checkout page: Bitcoin, Ethereum, Tron, Litecoin, Dogecoin, Solana, USDT (Ethereum, Tron or Solana), USDC (Ethereum or Solana) and EURC. No extra fee from us. Crypto payments can’t be reversed, so check the amount and the network before you send.';
   $('goTxt').textContent = crypto ? 'Pay with ' + payInfo().name.split(' ')[0] : 'Continue on Telegram';
   $('micro').textContent = crypto
     ? 'You pay on the secure checkout page. Your order is confirmed once the payment arrives.'
@@ -480,6 +480,7 @@ PAY.forEach(p => {
   b.type = 'button';
   b.setAttribute('role', 'radio');
   b.dataset.n = p.name;
+  if (p.wide) b.className = 'wide';
   b.innerHTML = '<b>' + p.name + '</b><span>' + p.sub + '</span>';
   b.onclick = () => { pay = p.name; update(); };
   $('pay').appendChild(b);
