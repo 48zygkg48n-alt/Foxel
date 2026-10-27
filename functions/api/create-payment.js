@@ -39,6 +39,16 @@ async function notifyTelegram(env, text) {
   });
 }
 
+// TEMPORARY health check: open /api/create-payment in a browser.
+// JSON with "deployed": true means the function is live. Remove once payments work.
+export async function onRequestGet({ env }) {
+  return json({
+    deployed: true,
+    cryptopayin_secret_set: Boolean(env.CRYPTOPAYIN_SECRET),
+    telegram_alerts_set: Boolean(env.TG_BOT_TOKEN && env.TG_CHAT_ID)
+  });
+}
+
 export async function onRequestPost({ request, env }) {
   if (!env.CRYPTOPAYIN_SECRET) {
     return json({ error: 'Crypto payments are not configured' }, 500);
