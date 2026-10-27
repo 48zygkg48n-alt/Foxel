@@ -293,8 +293,8 @@ noscript .card{margin:20px auto;max-width:640px}
 <dl class="rows" aria-live="polite">
 <div class="row"><dt>Robux (gamepass price)</dt><dd id="sRb">10,000</dd></div>
 <div class="row"><dt>Foxel price</dt><dd id="sPrice">€50.00</dd></div>
-<div class="row"><dt id="feeLab">Card fee (+5%)</dt><dd id="sFee">€2.50</dd></div>
-<div class="row total"><dt>Total</dt><dd id="sTotal">€52.50</dd></div>
+<div class="row"><dt id="feeLab">Payment fee</dt><dd id="sFee">None</dd></div>
+<div class="row total"><dt id="totLab">Total</dt><dd id="sTotal">€50.00</dd></div>
 </dl>
 <div class="cmp" aria-live="polite">
 <div class="r"><span>Roblox.com, same amount*</span><b id="sRbx">≈ €109.10</b></div>
@@ -337,7 +337,7 @@ noscript .card{margin:20px auto;max-width:640px}
 <p class="sub">Short answers to what people ask most.</p>
 <details><summary>How does ordering work?</summary><p>Pick an amount, create a gamepass at the price shown, and press Continue on Telegram. We prepare your order message, you paste it into our bot, and we confirm payment details with you there. Once payment is confirmed and your gamepass checks out, we deliver your Robux.</p></details>
 <details><summary>Does the price include Roblox’s gamepass fee?</summary><p>No. Roblox charges its own fee on gamepass sales, and it is not included in our price. The <a href="disclaimer.html">disclaimer</a> explains exactly how it works.</p></details>
-<details><summary>How can I pay, and are there fees?</summary><p>Crypto is paid on our secure checkout page, with no extra fee from us. You pick the coin there: Bitcoin, Ethereum, Tron, Litecoin, Dogecoin, Solana, USDT, USDC or EURC. Apple Pay and Google Pay are arranged with us on Telegram and add a 5% card fee, which is shown in the total before you continue.</p></details>
+<details><summary>How can I pay, and are there fees?</summary><p>Crypto is paid on our secure checkout page, with no extra fee from us. You pick the coin there: Bitcoin, Ethereum, Tron, Litecoin, Dogecoin, Solana, USDT, USDC or EURC. Apple Pay and Google Pay are arranged with us on Telegram, and any payment fees are discussed with you there before you pay.</p></details>
 <details><summary>What if something goes wrong?</summary><p>If we can’t deliver your order, you get your money back. Message us on Telegram and we’ll sort it out. Support is available between 12:00 and 22:00, Amsterdam time.</p></details>
 <details><summary>I can’t find my gamepass ID</summary><p>Enter your Roblox username in the ID field instead, and make sure your gamepass is priced exactly as shown in step 2. We can help you on Telegram if you get stuck.</p></details>
 <details><summary>What is the minimum order?</summary><p>Custom amounts start at 5,000 Robux. A 1,000 Robux option is available as a preset, but stock for it is limited, so we confirm it on Telegram.</p></details>
@@ -391,8 +391,8 @@ const fmt = n => Math.round(n).toLocaleString('en-US');
 const eur = n => '€' + n.toFixed(2);
 
 const PAY = [
-  { name: 'Apple Pay',      sub: '+5% card fee', card: true },
-  { name: 'Google Pay',     sub: '+5% card fee', card: true },
+  { name: 'Apple Pay',      sub: 'Fees discussed on Telegram', card: true },
+  { name: 'Google Pay',     sub: 'Fees discussed on Telegram', card: true },
   { name: 'Crypto', sub: 'Bitcoin, Ethereum, Solana, Litecoin, USDT, USDC and more · No extra fee', card: false, asset: 'CRYPTO', wide: true }
 ];
 const isApple = /iPhone|iPad|Macintosh/.test(navigator.userAgent);
@@ -417,8 +417,8 @@ function update() {
   const r = amount;
   const price = priceFor(r);
   const card = payInfo().card;
-  const fee = card ? price * CFG.cardFee : 0;
-  const total = price + fee;
+  // Apple Pay / Google Pay fees are agreed on Telegram, so the total here is the price before fees.
+  const total = price;
   const rbx = r / 1000 * CFG.rbx1k;
   const saved = Math.max(0, rbx - total);
   const pct = rbx ? Math.round(saved / rbx * 100) : 0;
@@ -426,8 +426,9 @@ function update() {
   $('gp').textContent = fmt(r);
   $('sRb').textContent = fmt(r);
   $('sPrice').textContent = eur(price);
-  $('feeLab').textContent = card ? 'Card fee (+5%)' : 'Payment fee';
-  $('sFee').textContent = card ? eur(fee) : 'None';
+  $('feeLab').textContent = 'Payment fee';
+  $('sFee').textContent = card ? 'Discussed on Telegram' : 'None';
+  $('totLab').textContent = card ? 'Total before fees' : 'Total';
   $('sTotal').textContent = eur(total);
   $('sRbx').textContent = '≈ ' + eur(rbx);
   $('sSave').textContent = eur(saved) + ' (' + pct + '%)';
@@ -445,7 +446,7 @@ function update() {
     : 'Custom amounts start at 5,000 Robux.';
   const crypto = !!payInfo().asset;
   $('payNote').textContent = card
-    ? 'Card payments go through a third-party payment provider, and a 5% fee applies. We walk you through the exact steps on Telegram.'
+    ? 'Apple Pay and Google Pay are arranged on Telegram through a third-party payment provider. Payment fees are discussed with you there before you pay, and we walk you through the exact steps.'
     : 'You choose your coin on our secure checkout page: Bitcoin, Ethereum, Tron, Litecoin, Dogecoin, Solana, USDT (Ethereum, Tron or Solana), USDC (Ethereum or Solana) and EURC. No extra fee from us. Crypto payments can’t be reversed, so check the amount and the network before you send.';
   $('goTxt').textContent = crypto ? 'Pay with ' + payInfo().name.split(' ')[0] : 'Continue on Telegram';
   $('micro').textContent = crypto
@@ -564,8 +565,7 @@ function go() {
     'Robux: ' + fmt(r),
     'Price: EUR ' + price.toFixed(2),
     (card
-      ? 'Card fee (+5%): EUR ' + (price * CFG.cardFee).toFixed(2) + '\n' +
-        'Total to pay: EUR ' + (price * (1 + CFG.cardFee)).toFixed(2)
+      ? 'Payment fee: to be discussed on Telegram'
       : 'Total to pay: EUR ' + price.toFixed(2)),
     'Gamepass ID or username: ' + gp,
     'Gamepass price: ' + fmt(r) + ' Robux',
