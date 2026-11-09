@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Foxel – Payment instructions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:dark;--bg:#050505;--s:#0f0f11;--s2:#171719;--l:#28282c;--t:#fff;--m:#9b9ba5;--ok:#7dffb2}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--t);font:400 16px/1.55 Inter,system-ui,sans-serif;background-image:radial-gradient(60% 40% at 80% 0,#1b1b20 0,transparent 70%);min-height:100vh}
+.w{max-width:760px;margin:auto;padding:0 20px}
+h1,h2,.brand{font-family:Unbounded,"Space Grotesk",Inter,sans-serif;letter-spacing:-.045em;font-weight:700}
+nav{display:flex;align-items:center;justify-content:space-between;padding:20px 0}
+.brand{display:flex;align-items:center;gap:11px;font-size:21px}
+.mark{width:30px;height:30px;border:2px solid #fff;border-radius:9px;display:grid;place-items:center;font:800 16px "Space Grotesk";transform:rotate(-8deg)}
+nav span:last-child{font-size:13px;color:var(--m)}
+.hero{padding:34px 0 26px}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;background:#fff;color:#000;border-radius:99px;padding:6px 13px;font-size:12px;font-weight:700;margin-bottom:18px}
+.eyebrow:before{content:"";width:7px;height:7px;background:#16a34a;border-radius:50%}
+h1{font-size:clamp(30px,6vw,48px);line-height:1.08;margin:0 0 14px}
+.hero p{color:var(--m);font-size:16px;max-width:590px;margin:0}
+.card{display:none;background:var(--s);border:1px solid var(--l);border-radius:24px;padding:24px;margin:18px 0;min-height:260px}
+.card.active{display:block;animation:stepIn .22s ease}
+@keyframes stepIn{from{opacity:.35;transform:translateX(8px)}to{opacity:1;transform:translateX(0)}}
+.step{display:flex;align-items:center;gap:11px;font-weight:700;margin:0 0 12px}
+.num{width:27px;height:27px;display:grid;place-items:center;border-radius:50%;background:#fff;color:#000;font-size:13px;font-weight:800;flex:none}
+p{color:var(--m);font-size:14px;line-height:1.65;margin:8px 0}
+.address{display:flex;align-items:center;gap:10px;background:var(--s2);border:1px solid var(--l);border-radius:13px;padding:14px;margin:15px 0 12px}
+.address code{font:500 12px/1.6 "Space Grotesk",monospace;overflow-wrap:anywhere;flex:1;color:#fff}
+button,.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#fff;color:#000;border:0;border-radius:12px;font:700 14px Inter,sans-serif;padding:0 18px;height:46px;cursor:pointer;text-decoration:none;transition:transform .15s,box-shadow .15s}
+button:hover:not(:disabled),.btn:hover{transform:translateY(-2px);box-shadow:0 8px 30px #fff2}
+.copy{white-space:nowrap;flex:none}
+.status{font-size:12px;color:var(--ok);min-height:18px;margin:4px 2px 0}
+.choice{display:flex;align-items:flex-start;gap:10px;background:var(--s2);border:1px solid var(--l);border-radius:12px;padding:13px 14px;margin-top:9px;font-size:14px;color:#c8c8cf}
+.choice.active{border-color:#fff;color:#fff}
+.tick{color:var(--ok);font-weight:800}
+.details{display:grid;gap:9px;margin-top:13px}
+.detail{display:flex;justify-content:space-between;gap:15px;padding:12px 14px;background:var(--s2);border:1px solid var(--l);border-radius:11px;font-size:14px}
+.detail span{color:var(--m)}
+.detail b{text-align:right}
+.confirm{display:flex;gap:11px;align-items:flex-start;margin-top:17px;color:#c8c8cf;font-size:13px;line-height:1.55}
+.confirm input{width:17px;height:17px;accent-color:#fff;flex:none;margin:1px 0 0}
+.go{width:100%;height:60px;border-radius:14px;font-size:17px;margin-top:18px}
+.go:disabled{opacity:.32;cursor:not-allowed;transform:none;box-shadow:none}
+.progress-wrap{margin:8px 0 18px}
+.progress-meta{display:flex;justify-content:space-between;gap:12px;color:var(--m);font-size:12px;margin-bottom:9px}
+.progress-track{height:4px;background:#242428;border-radius:99px;overflow:hidden}
+.progress-fill{height:100%;width:12.5%;background:#fff;border-radius:99px;transition:width .2s}
+.wizard-controls{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:16px 0 28px}
+.wizard-controls button{min-width:112px}
+.wizard-controls .back{background:var(--s2);border:1px solid var(--l);color:#fff}
+.wizard-controls button:disabled{opacity:.25;cursor:not-allowed;transform:none;box-shadow:none}
+.wizard-controls .next{margin-left:auto}
+footer{border-top:1px solid var(--l);padding:22px 0 30px;color:#777780;font-size:12px}
+@media(max-width:560px){.w{padding:0 16px}.hero{padding-top:25px}.card{padding:18px;border-radius:19px}.address{align-items:stretch;flex-direction:column}.copy{width:100%}.detail{font-size:13px}}
+.lab{display:block;font-size:13px;color:var(--m);margin:14px 0 0}
+.in{width:100%;height:50px;margin-top:6px;background:var(--s2);border:1px solid var(--l);border-radius:12px;color:#fff;font:500 15px Inter,sans-serif;padding:0 14px;outline:0}
+.in:focus{border-color:#fff}
+.err{color:#ff8a8a;font-size:13px;min-height:18px;margin-top:10px}
+.disc{font-size:12px;color:#c8c8cf;line-height:1.5;border:1px dashed #3a3a40;border-radius:12px;padding:12px 14px;margin:14px 0 0}
+.note{font-size:13px;color:#ffe3a3;line-height:1.55;background:#2a2412;border:1px solid #4a3d16;border-radius:12px;padding:12px 14px;margin:16px 0 0}
+.coins{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:14px}
+.coins button.coin{height:auto;padding:12px 14px;background:var(--s2);color:#fff;border:1px solid var(--l);border-radius:12px;font:600 14px Inter,sans-serif;text-align:left;display:block;box-shadow:none;transform:none}
+.coins button.coin:hover:not(:disabled){border-color:#666;transform:none;box-shadow:none}
+.coins button.coin.on{background:#fff;color:#000;border-color:#fff}
+.coin small{display:block;color:var(--m);font-weight:500;font-size:12px;margin-top:2px}
+.coin.on small{color:#555}
+.cbox{margin-top:14px;background:var(--s);border:1px solid var(--l);border-radius:18px;padding:18px;min-height:110px}
+.cbox .warn{font-size:13px;color:#ffcf7a;margin:0 0 6px;line-height:1.5}
+.cbox .net{font-size:13px;color:var(--m);margin:0 0 4px}
+.cbox code{display:block;font:500 13px/1.6 "Space Grotesk",monospace;word-break:break-all;background:var(--s2);border:1px solid var(--l);border-radius:12px;padding:12px;color:#fff;margin:10px 0 12px}
+.cbox .muted{color:var(--m);font-size:14px;margin:0}
+.cfine{color:var(--m);font-size:12.5px;margin:14px 0 0;line-height:1.5}
+.cfine a{color:#fff}
+.done{color:var(--ok);font-size:14px;font-weight:600;margin:12px 0 0;min-height:20px;text-align:center}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important;animation:none!important}}
+.method-grid{display:grid;gap:12px;margin-top:20px}
+.method-option{width:100%;min-height:76px;height:auto;padding:17px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:5px;text-align:left;background:var(--s2);color:#fff;border:1px solid var(--l);border-radius:14px}
+.method-option:hover{border-color:#fff}
+.method-option strong{font-size:15px}
+.method-option small{font-size:12px;color:var(--m);font-weight:500}
+.back-method{margin-top:16px;background:var(--s2);border:1px solid var(--l);color:#fff}
+</style>
+</head>
+<body>
+<div class="w">
+  <nav>
+    <div class="brand"><span class="mark">F</span> FOXEL</div>
+    <span>PAYMENT GUIDE</span>
+  </nav>
+
+  <header class="hero" id="hero">
+    <div class="eyebrow">PAYMENT INSTRUCTIONS</div>
+    <h1>Choose how to pay<span style="color:var(--m)">.</span></h1>
+    <p>Choose your preferred payment method to see the right instructions.</p>
+  </header>
+
+  <div class="progress-wrap" aria-label="Payment guide progress">
+    <div class="progress-meta"><span id="stepLabel">STEP 1 OF 8</span><span id="stepPercent">13%</span></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  </div>
+
+  <main>
+    <section class="card active" id="methodPanel">
+      <div class="step"><span class="num">1</span> Choose your payment method</div>
+      <p>Select how you'd like to pay.</p>
+      <div class="method-grid">
+        <button class="method-option" type="button" onclick="chooseMethod('card')">
+          <strong>Card / Apple Pay / Google Pay / PayPal</strong>
+          <small>Continue to the payment steps</small>
+        </button>
+        <button class="method-option" type="button" onclick="chooseMethod('crypto')">
+          <strong>Cryptocurrency</strong>
+          <small>Pay directly from your crypto wallet</small>
+        </button>
+      </div>
+    </section>
+
+    <section class="card" id="cardStep1">
+      <div class="step"><span class="num">1</span> Generate wallet address</div>
+      <p>Use the FOXEL wallet address below. It has been generated for this payment.</p>
+      <div class="address">
+        <code id="wallet">0x72dd1942E5aeeA2fee31a9Ebb0fda727804dB67F</code>
+        <button class="copy" type="button" onclick="copyWallet()">Copy address</button>
+      </div>
+      <div class="status" id="copyStatus" aria-live="polite"></div>
+    </section>
+
+    <section class="card" id="cardStep2">
+      <div class="step"><span class="num">2</span> Paste the wallet address</div>
+      <p>When Changelly asks for a wallet address, paste the address you copied in Step 1.</p>
+    </section>
+
+    <section class="card" id="cardStep3">
+      <div class="step"><span class="num">3</span> Select who you are sending to</div>
+      <p>When asked whether you are sending the crypto-assets to yourself or to another recipient, select:</p>
+      <div class="choice">I am sending the crypto-assets to myself</div>
+      <div class="choice active"><span class="tick">✓</span><strong>I am sending the crypto-assets to another recipient</strong></div>
+    </section>
+
+    <section class="card" id="cardStep4">
+      <div class="step"><span class="num">4</span> Choose personal or business</div>
+      <p>When Changelly asks whether the recipient is a personal or business recipient, select:</p>
+      <div class="choice">Personal</div>
+      <div class="choice active"><span class="tick">✓</span><strong>Business</strong></div>
+    </section>
+
+    <section class="card" id="cardStep5">
+      <div class="step"><span class="num">5</span> Enter business details</div>
+      <p>Enter the following business information:</p>
+      <div class="details">
+        <div class="detail"><span>Business name</span><b>FOXEL</b></div>
+        <div class="detail"><span>Country</span><b>Netherlands</b></div>
+      </div>
+    </section>
+
+    <section class="card" id="cardStep6">
+      <div class="step"><span class="num">6</span> Your order details</div>
+      <p>Fill in the details below so we can match your payment to your order.</p>
+      <label class="lab" for="oContact">Telegram username or email</label>
+      <input class="in" id="oContact" placeholder="@username or you@example.com" autocomplete="off">
+      <label class="lab" for="oGp">Gamepass link</label>
+      <input class="in" id="oGp" placeholder="https://www.roblox.com/game-pass/…" inputmode="url" autocomplete="off">
+      <div class="details">
+        <div class="detail"><span>Robux</span><b id="oRbx">–</b></div>
+        <div class="detail"><span>Amount to pay</span><b id="oEur">–</b></div>
+        <div class="detail"><span>Date</span><b id="oDate">–</b></div>
+      </div>
+      <div class="err" id="oErr" aria-live="polite"></div>
+    </section>
+
+    <section class="card" id="cardStep7">
+      <div class="step"><span class="num">7</span> Confirm and continue</div>
+      <p>Check that you've completed the steps above.</p>
+      <label class="confirm">
+        <input type="checkbox" id="readConfirm">
+        <span>I have read and understood the payment instructions.</span>
+      </label>
+      <button class="go" id="continue" type="button" disabled onclick="openProcessor()">Continue to payment&nbsp; →</button>
+      <p class="disc">Select <b style="color:#fff">Paybis</b> as the provider in the payment processor so your payment can be matched to your order. Available payment methods are shown at checkout.</p>
+    </section>
+
+    <section class="card" id="cardStep8">
+      <div class="step"><span class="num">8</span> Confirm your payment</div>
+      <p>Once you have completed the payment, come back here to finish your order.</p>
+      <div class="note">After you made the payment, please press <b>Confirm</b> here. This sends all your order details to us so we can process your order.</div>
+      <button class="go" id="cardConfirm" type="button" onclick="confirmPayment('card')">I've paid – Confirm</button>
+      <div class="err" id="cardErr" aria-live="polite"></div>
+      <div class="done" id="cardDone" aria-live="polite"></div>
+    </section>
+
+    <section class="card" id="cryptoPanel">
+      <div class="step"><span class="num">1</span> Choose your cryptocurrency</div>
+      <p>Select the coin you're sending. Send it only on the network shown, or the funds can be lost.</p>
+      <div class="coins" id="coins"></div>
+      <div class="cbox" id="cbox" aria-live="polite"><p class="muted">Select a coin above to see its wallet address.</p></div>
+
+      <label class="lab" for="cContact">Telegram username or email</label>
+      <input class="in" id="cContact" placeholder="@username or you@example.com" autocomplete="off">
+      <label class="lab" for="cGp">Gamepass link</label>
+      <input class="in" id="cGp" placeholder="https://www.roblox.com/game-pass/…" inputmode="url" autocomplete="off">
+      <label class="lab" for="cTx">Transaction hash (optional)</label>
+      <input class="in" id="cTx" placeholder="Paste your transaction hash" autocomplete="off">
+      <div class="details">
+        <div class="detail"><span>Robux</span><b id="cRbx">–</b></div>
+        <div class="detail"><span>Amount to pay</span><b id="cEur">–</b></div>
+        <div class="detail"><span>Date</span><b id="cDate">–</b></div>
+      </div>
+
+      <div class="note">After you made the payment, please press <b>Confirm</b> here. This sends all your order details to us so we can process your order.</div>
+      <button class="go" id="cryptoConfirm" type="button" onclick="confirmPayment('crypto')">I've paid – Confirm</button>
+      <div class="err" id="cryptoErr" aria-live="polite"></div>
+      <div class="done" id="cryptoDone" aria-live="polite"></div>
+
+      <p class="cfine">Need help? Message our <a href="https://t.me/foxel_ticket_bot" target="_blank" rel="noopener noreferrer">support bot</a>.</p>
+      <button class="back-method" type="button" onclick="backToMethods()">← Choose another payment method</button>
+    </section>
+  </main>
+
+  <div class="wizard-controls" id="wizardControls">
+    <button class="back" id="previousStep" type="button" disabled onclick="changeStep(-1)">← Back</button>
+    <button class="next" id="nextStep" type="button" onclick="changeStep(1)">Next step →</button>
+  </div>
+
+  <footer>© FOXEL · Payment instructions</footer>
+</div>
+
+<script>
+const Q = new URLSearchParams(location.search);
+const RBX_ORDER = (Q.get("robux") || "").replace(/[^0-9]/g, "");
+const EUR_ORDER = (Q.get("eur") || "25").replace(/[^0-9.]/g, "") || "25";
+const WALLET = "0x72dd1942E5aeeA2fee31a9Ebb0fda727804dB67F";
+const PAYMENT_URL = "https://changelly.com/buy-crypto?from=EUR&to=USDC&amount=" + encodeURIComponent(EUR_ORDER) + "&address=" + WALLET + "&utm_source=chatgpt.com";
+const DISCORD_WEBHOOK = "https://discord.com/api/webhooks/1564412025570861097/R6-17hI26Cuyb4RX4ppt0xbjB_LuWfqIq9coJpPQiPvigiLz2Hv1JhsfxgwjY0CbgSG0";
+const DETAILS_STEP = 5;
+const GP_RE = /roblox\.com\/(?:[a-z]{2}\/)?game-pass\/(\d+)/i;
+
+let paymentMethod = null;
+let currentStep = 0;
+let selectedCoin = null;
+
+const $ = id => document.getElementById(id);
+const cardPanels = [1,2,3,4,5,6,7,8].map(n => $("cardStep" + n));
+const methodPanel = $("methodPanel");
+const cryptoPanel = $("cryptoPanel");
+const wizardControls = $("wizardControls");
+const progressWrap = document.querySelector(".progress-wrap");
+
+async function copyText(text){
+  try {
+    await navigator.clipboard.writeText(text);
+    return true;
+  } catch (err) {
+    try {
+      const field = document.createElement("textarea");
+      field.value = text;
+      field.style.position = "fixed";
+      field.style.opacity = "0";
+      document.body.appendChild(field);
+      field.select();
+      const ok = document.execCommand("copy");
+      field.remove();
+      return ok;
+    } catch (e) { return false; }
+  }
+}
+
+async function copyWallet(){
+  const ok = await copyText($("wallet").textContent.trim());
+  $("copyStatus").textContent = ok ? "✓ Copied to clipboard" : "Couldn't copy. Select the address and copy it manually.";
+}
+
+function renderStep(){
+  [methodPanel, ...cardPanels, cryptoPanel].forEach(panel => {
+    panel.classList.remove("active");
+    panel.setAttribute("aria-hidden", "true");
+  });
+
+  if (!paymentMethod) {
+    methodPanel.classList.add("active");
+    methodPanel.setAttribute("aria-hidden", "false");
+    wizardControls.style.display = "none";
+    progressWrap.style.display = "none";
+    return;
+  }
+
+  progressWrap.style.display = "block";
+  wizardControls.style.display = paymentMethod === "crypto" ? "none" : "flex";
+
+  if (paymentMethod === "crypto") {
+    cryptoPanel.classList.add("active");
+    cryptoPanel.setAttribute("aria-hidden", "false");
+    $("stepLabel").textContent = "CRYPTO PAYMENT";
+    $("stepPercent").textContent = "100%";
+    $("progressFill").style.width = "100%";
+    return;
+  }
+
+  const total = cardPanels.length;
+  const panel = cardPanels[currentStep];
+  panel.classList.add("active");
+  panel.setAttribute("aria-hidden", "false");
+
+  const percent = Math.round(((currentStep + 1) / total) * 100);
+  $("stepLabel").textContent = "STEP " + (currentStep + 1) + " OF " + total;
+  $("stepPercent").textContent = percent + "%";
+  $("progressFill").style.width = percent + "%";
+  $("previousStep").disabled = currentStep === 0;
+  $("nextStep").style.display = currentStep === total - 1 ? "none" : "inline-flex";
+  $("continue").disabled = !$("readConfirm").checked;
+}
+
+function chooseMethod(method){
+  paymentMethod = method;
+  currentStep = 0;
+  renderStep();
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function backToMethods(){
+  paymentMethod = null;
+  renderStep();
+}
+
+function cardDetailsError(){
+  if (!$("oContact").value.trim()) return "Please enter your Telegram username or email.";
+  if (!GP_RE.test($("oGp").value.trim())) return "Please enter a valid gamepass link (roblox.com/game-pass/…).";
+  return "";
+}
+
+function cryptoDetailsError(){
+  if (!selectedCoin) return "Please choose your cryptocurrency first.";
+  if (!$("cContact").value.trim()) return "Please enter your Telegram username or email.";
+  if (!GP_RE.test($("cGp").value.trim())) return "Please enter a valid gamepass link (roblox.com/game-pass/…).";
+  return "";
+}
+
+function changeStep(direction){
+  const target = currentStep + direction;
+  if (target < 0 || target >= cardPanels.length) return;
+  if (direction > 0 && currentStep === DETAILS_STEP) {
+    const err = cardDetailsError();
+    $("oErr").textContent = err;
+    if (err) return;
+  }
+  currentStep = target;
+  renderStep();
+}
+
+$("readConfirm").addEventListener("change", function(){
+  $("continue").disabled = !this.checked;
+});
+
+function openProcessor(){
+  if (paymentMethod !== "card" || !$("readConfirm").checked) return;
+
+  const err = cardDetailsError();
+  if (err) {
+    currentStep = DETAILS_STEP;
+    renderStep();
+    $("oErr").textContent = err;
+    return;
+  }
+
+  window.open(PAYMENT_URL, "_blank", "noopener,noreferrer");
+}
+
+const clip = s => String(s).slice(0, 300);
+
+async function confirmPayment(method){
+  const isCard = method === "card";
+  const errEl = $(isCard ? "cardErr" : "cryptoErr");
+  const doneEl = $(isCard ? "cardDone" : "cryptoDone");
+  const btn = $(isCard ? "cardConfirm" : "cryptoConfirm");
+  errEl.textContent = "";
+  doneEl.textContent = "";
+
+  const err = isCard ? cardDetailsError() : cryptoDetailsError();
+  if (err) {
+    if (isCard) {
+      currentStep = DETAILS_STEP;
+      renderStep();
+      $("oErr").textContent = err;
+    } else {
+      errEl.textContent = err;
+    }
+    return;
+  }
+
+  const lines = [
+    "**Payment confirmed (" + (isCard ? "card / digital wallet" : "crypto") + ")**",
+    "Date: " + (isCard ? $("oDate") : $("cDate")).textContent,
+    "Contact: " + clip((isCard ? $("oContact") : $("cContact")).value.trim()),
+    "Gamepass: " + clip((isCard ? $("oGp") : $("cGp")).value.trim()),
+    "Robux: " + (RBX_ORDER || "n/a"),
+    "Amount: €" + EUR_ORDER
+  ];
+
+  if (isCard) {
+    lines.push("Provider: Paybis via Changelly");
+    lines.push("Wallet: " + WALLET);
+    lines.push("Page: " + location.href.slice(0, 300));
+  } else {
+    lines.push("Coin: " + selectedCoin.name + " (" + selectedCoin.sym + ")");
+    lines.push("Network: " + selectedCoin.net);
+    lines.push("Wallet: " + selectedCoin.addr);
+    lines.push("Transaction hash: " + (clip($("cTx").value.trim()) || "not provided"));
+    lines.push("Page: " + location.href.slice(0, 300));
+  }
+
+  btn.disabled = true;
+  btn.textContent = "Sending…";
+  try {
+    const res = await fetch(DISCORD_WEBHOOK, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({content: lines.join("\n")})
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    btn.textContent = "✓ Confirmed";
+    doneEl.textContent = "✓ Sent. We'll match your payment to your order shortly.";
+  } catch (e) {
+    btn.disabled = false;
+    btn.textContent = "I've paid – Confirm";
+    errEl.textContent = "Couldn't send. Check your connection and try again, or message our support bot.";
+  }
+}
+
+$("oGp").value = Q.get("gp") || "";
+$("cGp").value = Q.get("gp") || "";
+const rbxText = RBX_ORDER ? Number(RBX_ORDER).toLocaleString("en-US") + " Robux" : "–";
+const dateText = new Date().toLocaleString("en-GB", {dateStyle: "medium", timeStyle: "short"});
+["oRbx", "cRbx"].forEach(id => $(id).textContent = rbxText);
+["oEur", "cEur"].forEach(id => $(id).textContent = "€" + EUR_ORDER);
+["oDate", "cDate"].forEach(id => $(id).textContent = dateText);
+
+const COINS = [
+  {name: "Bitcoin",  sym: "BTC",           net: "Bitcoin network",           addr: "bc1qck4eryjafwmr79m4jcfyzldsht6zfpv6v0h44t"},
+  {name: "Ethereum", sym: "ETH",           net: "Ethereum network",          addr: "0x72dd1942E5aeeA2fee31a9Ebb0fda727804dB67F"},
+  {name: "Solana",   sym: "SOL",           net: "Solana network",            addr: "AXYamZ2iRtmo5w2J5itFCB6GF2eX5iYpbZaBY9gZi1JS"},
+  {name: "Litecoin", sym: "LTC",           net: "Litecoin network",          addr: "LcxowzhvfFzekgkZu4Pr8c9pLHrguoA85J"},
+  {name: "BNB",      sym: "BNB",           net: "BNB Smart Chain (BEP-20)",  addr: "0x72dd1942E5aeeA2fee31a9Ebb0fda727804dB67F"},
+  {name: "USDT",     sym: "USDT (ERC-20)", net: "Ethereum network",          addr: "0x72dd1942E5aeeA2fee31a9Ebb0fda727804dB67F"},
+  {name: "Tron",     sym: "TRX",           net: "Tron network",              addr: "TVfp5RX9AjoGYkbXXwpdJHYBo9eWincaWw"}
+];
+
+const coinsEl = $("coins");
+coinsEl.innerHTML = COINS.map((c, i) =>
+  '<button class="coin" type="button" data-i="' + i + '">' + c.name + '<small>' + c.sym + '</small></button>'
+).join("");
+
+function showCoin(i){
+  const c = COINS[i];
+  selectedCoin = c;
+  document.querySelectorAll("#coins .coin").forEach((b, k) => b.classList.toggle("on", k === i));
+  $("cbox").innerHTML =
+    '<p class="warn">Send only ' + c.sym + ' on the ' + c.net + '. Other coins or networks sent to this address can be lost.</p>' +
+    '<p class="net">Network: ' + c.net + '</p>' +
+    '<code id="caddr">' + c.addr + '</code>' +
+    '<button class="copy" type="button" id="cbtn">Copy address</button>' +
+    '<div class="status" id="cst" aria-live="polite"></div>';
+  $("cbtn").onclick = async () => {
+    const ok = await copyText(c.addr);
+    $("cst").textContent = ok ? "✓ Copied to clipboard" : "Couldn't copy. Select the address and copy it manually.";
+  };
+}
+
+coinsEl.addEventListener("click", e => {
+  const b = e.target.closest(".coin");
+  if (b) showCoin(Number(b.dataset.i));
+});
+
+renderStep();
+</script>
+</body>
+</html>
